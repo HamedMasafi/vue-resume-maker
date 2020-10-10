@@ -1,0 +1,21 @@
+// div.main {
+//     section {
+//         border: 1px solid gray;
+//         background-color: #ededed;
+//         margin-top: 5px;
+//         margin-bottom: 5px;
+//         padding: 10px;
+//     }
+// }
+
+// @media print {
+//     input {
+//         border: none;
+//     }
+// }
+
+.number-cell {
+    vertical-align: middle;
+    text-align: center;
+    border-right: 1px solid red;
+}
