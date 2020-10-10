@@ -65,4 +65,12 @@ export default {
     text-align: center;
     border-right: 1px solid red;
 }
+.v-card{
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 12px;
+}
+.v-card h1 {
+  border-bottom: 1px solid red;
+}
 </style>
