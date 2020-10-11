@@ -1,7 +1,15 @@
 <template>
 <v-expansion-panel>
     <v-expansion-panel-header>
-        {{title}} - {{model.length}} Item(s)
+        {{title}}
+        <span v-if="model.length <= 1">
+        </span>  
+        <span v-if="model.length == 2">
+            - One item
+        </span>
+        <span v-if="model.length > 2">
+            - {{model.length - 1}} Items
+        </span>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
 

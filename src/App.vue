@@ -12,14 +12,14 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text>
+        <v-btn text @click="save">
             <v-icon dark>
                 fa-download
             </v-icon>
             <span class="ml-2">Save</span>
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="load">
             <v-icon dark>
                 fa-upload
             </v-icon>
@@ -45,8 +45,8 @@
     </v-app-bar>
 
     <v-main>
-        <Main model="profile" v-show="!preview"/>
-        <Preview model="profile" v-show="preview" />
+        <Main :model="profile" v-show="!preview"/>
+        <Preview :model="profile" v-show="preview" />
     </v-main>
 </v-app>
 </template>
@@ -79,7 +79,64 @@ export default {
     methods: {
       print() {
         window.print()
-      }
+      },
+      save() {
+            var filename = this.profile.personal_info.name + '-' + this.profile.personal_info.last_name + ".json";
+            var content = JSON.stringify(this.profile);
+            var file = new Blob([content], {
+                type: "text"
+            });
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
+        },
+        load() {
+            this.input.click();
+        },
+        store() {
+            localStorage.model = JSON.stringify(this.profile)
+        },
+        restore() {
+            this.profile = JSON.parse(localStorage.model || this.profile);
+        }
+    },
+    mounted() {
+        this.input = document.createElement("input");
+        this.input.type = 'file';
+        this.input.accept = "*.json";
+
+        // var __reload = function(o){
+        //     for (var k in o) {
+        //         this.profile[k] = o[k];
+        //     }
+        // }
+        var p = this.profile
+        p;
+        this.input.addEventListener("change", function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var contents = e.target.result;
+                var obj = JSON.parse(contents);
+                // this.profile = obj
+                console.log("read", obj)
+                // __reload(obj)
+                p = obj;
+            };
+            reader.readAsText(this.files[0]);
+        });
+
+        // this.profile = JSON.parse(localStorage.model || this.profile);
     }
 };
 </script>
