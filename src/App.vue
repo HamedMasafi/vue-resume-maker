@@ -12,26 +12,28 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text @click="save">
+        <v-btn text @click="store" v-show="!preview">
             <v-icon dark>
                 fa-download
             </v-icon>
             <span class="ml-2">Save</span>
         </v-btn>
 
-        <v-btn text @click="load">
+        <v-btn text @click="load" v-show="!preview">
             <v-icon dark>
                 fa-upload
             </v-icon>
             <span class="ml-2">Open</span>
         </v-btn>
 
-        <v-btn text @click="print">
+        <v-btn text @click="print" v-show="!preview">
             <v-icon dark>
                 fa-file-pdf
             </v-icon>
             <span class="ml-2">Export</span>
         </v-btn>
+
+        <v-select v-show="preview" class="mt-6" flat prefix="Theme: " small outlined dense :items="['Onde', 'Two']"></v-select>
 
         <v-btn text @click="preview=!preview">
             <v-icon dark v-show="preview">
@@ -68,6 +70,7 @@ export default {
                 personal_info: {},
                 contact_info: [{}],
                 educations: [{}],
+                language: [{}],
                 opensource_projects: [{}],
                 jobs: [{}],
                 skills: [{
@@ -136,13 +139,13 @@ export default {
             reader.readAsText(this.files[0]);
         });
 
-        // this.profile = JSON.parse(localStorage.model || this.profile);
+        this.profile = JSON.parse(localStorage.model || this.profile);
     }
 };
 </script>
-
-<style>
-@import url(./style/common.scss);
+<style lang="scss">
+  @import "./style/common.scss";
+  @import "./style/basic.scss";
 </style>
 <style>
 .number-cell {

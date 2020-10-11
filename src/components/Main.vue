@@ -3,13 +3,20 @@
     <v-expansion-panels>
         <v-expansion-panel>
             <v-expansion-panel-header>
-              Personal Info
+                Personal Info
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-                <v-text-field label="Name" dense v-model="model.personal_info.name" />
-                <v-text-field label="Last" dense v-model="model.personal_info.last_name" />
-                <v-text-field label="EMail" dense v-model="model.personal_info.email" />
-                <v-text-field label="GitHub address" dense v-model="model.personal_info.github" />
+                <v-row>
+                    <v-col cols="6">
+                        <v-text-field label="Name" dense v-model="model.personal_info.name" />
+                    </v-col>
+                    <v-col cols="6">
+                        <v-text-field label="Last" dense v-model="model.personal_info.last_name" />
+                    </v-col>
+                    <v-col>
+                        <v-textarea label="Bio" dense v-model="model.personal_info.bio" ></v-textarea>
+                    </v-col>
+                </v-row>
             </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -39,6 +46,20 @@
             </v-row>
         </ListManagement>
 
+        <ListManagement title="Languages" :names="['language', 'skill']" :model="model.language" v-slot:default="{add, item}">
+            <v-row slot="items">
+                <v-col>
+                    <v-text-field label="Language" dense v-model="item.language" @change="add" />
+                </v-col>
+                <v-col>
+                    <v-text-field label="Skill" dense v-model="item.skill" @change="add" />
+                </v-col>
+                <v-col>
+                    <v-text-field label="License" dense v-model="item.license" @change="add" />
+                </v-col>
+            </v-row>
+        </ListManagement>
+
         <ListManagement title="Jobs" :names="['name', 'position', 'from', 'to', 'since_now']" :model="model.jobs" v-slot:default="{add, item}">
             <v-row slot="items">
                 <v-col>
@@ -62,20 +83,20 @@
         <ListManagement title="Skills" :names="['title']" :model="model.skills" v-slot:default="{item, add}">
             <v-text-field label="Skill group name" dense v-model="item.title" @change="add" />
             <v-expansion-panels>
-            <ListManagement :title="item.title" :names="['title', 'skill', 'years']" :model="item.subs" v-slot:default="{add, item}">
-                <v-row slot="items">
-                    <v-col>
-                        <v-text-field label="Title" dense v-model="item.title" @change="add" />
-                    </v-col>
-                    <v-col>
-                        <v-select dense v-model="item.skill" @change="add" :items="['Beginner', 'Advanced']">
-                        </v-select>
-                    </v-col>
-                    <v-col>
-                        <v-text-field label="Years" dense type="number" v-model="item.years" @change="add" />
-                    </v-col>
-                </v-row>
-            </ListManagement>
+                <ListManagement :title="item.title" :names="['title', 'skill', 'years']" :model="item.subs" v-slot:default="{add, item}">
+                    <v-row slot="items">
+                        <v-col>
+                            <v-text-field label="Title" dense v-model="item.title" @change="add" />
+                        </v-col>
+                        <v-col>
+                            <v-select dense v-model="item.skill" @change="add" :items="['Beginner', 'Advanced']">
+                            </v-select>
+                        </v-col>
+                        <v-col>
+                            <v-text-field label="Years" dense type="number" v-model="item.years" @change="add" />
+                        </v-col>
+                    </v-row>
+                </ListManagement>
             </v-expansion-panels>
         </ListManagement>
 

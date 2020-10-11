@@ -3,3 +3,18 @@
     text-align: center;
     border-right: 1px solid red;
 }
+
+
+@media print {
+    header {
+        display: none!important;
+    }
+.container {
+    &.main{
+        display: none!important;
+    }
+    &.print-template{
+        display: block!important;
+    }
+}
+}
