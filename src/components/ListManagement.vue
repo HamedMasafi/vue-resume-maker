@@ -1,35 +1,37 @@
 <template>
-<v-card elevation="10">
-            <v-card-text>
+<v-expansion-panel>
+    <v-expansion-panel-header>
+        {{title}} - {{model.length}} Item(s)
+    </v-expansion-panel-header>
+    <v-expansion-panel-content>
 
-    <h1>{{title}}</h1>
-    <v-row v-for="(item, i) in model" :key="i">
-        <!-- <slot name="items"  :item="item"></slot> -->
-        <v-col cols="1" class="number-cell">
-        <span>{{i + 1}}</span>
-        </v-col>
-        <v-col cols="10">
-        <slot :add="add" :remove="remove" :item="item" :index="i">
-            <template v-for="(e, i) in names" >
-                {{e}}-{{i}} <input v-model="item[e]" :key="i" @change="add"/>
-            </template>
-        </slot>
-        </v-col>
-        <v-col cols="1">
-        <v-btn @click="remove(i)" color="error">
-            <v-icon dark>
-                mdi-delete
-            </v-icon>
-        </v-btn>
-        </v-col>
-    </v-row>
-        </v-card-text>
+        <v-form ref="f" v-for="(item, i) in model" :key="i">
+            <v-row class="item-row">
+                <v-col cols="1" class="number-cell">
+                    <span>#{{i + 1}}</span>
+                    <v-btn @click="remove(i)" color="error" :disabled="i == model.length - 1" fab small>
+                        <v-icon dark>
+                            mdi-delete
+                        </v-icon>
+                    </v-btn>
+                </v-col>
+                <v-col cols="11">
+                    <slot :add="add" :remove="remove" :item="item" :index="i">
+                        <template v-for="(e, i) in names">
+                            {{e}}-{{i}} <input v-model="item[e]" :key="i" @change="add" />
+                        </template>
+                    </slot>
+                </v-col>
+            </v-row>
+        </v-form>
+    </v-expansion-panel-content>
 
-</v-card>
+</v-expansion-panel>
 </template>
+
 <script>
 export default {
-    props:{
+    props: {
         title: String,
         model: Array,
         names: Array
@@ -48,7 +50,7 @@ export default {
             this.model.push({})
         },
         remove(index) {
-            var p = confirm("Are you sure to delete this item?") 
+            var p = confirm("Are you sure to delete this item?")
             if (this.model.length > 1 && p)
                 this.model.splice(index, 1)
         }
